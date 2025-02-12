@@ -70,7 +70,6 @@ else
         catch (Exception ex)
         {
             await js.InvokeAsync<bool>("confirm", ex.Message);
-            //Console.WriteLine($"Error loading books: {ex.Message}");
         }
     }
 

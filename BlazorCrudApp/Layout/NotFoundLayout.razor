@@ -1,0 +1,21 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="page">
+    <main>
+        <div class="container text-center mt-5">
+            <h1 class="text-danger display-1">404</h1>
+            <h2 class="text-muted">Oops! The page you are looking for doesn't exist.</h2>
+            <p class="text-secondary">It might have been moved, deleted, or the URL is incorrect.</p>
+
+            <button class="btn btn-primary mt-3" @onclick="GoHome">Go Back Home</button>
+        </div>
+    </main>
+</div>
+
+@code {
+    private void GoHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+ }

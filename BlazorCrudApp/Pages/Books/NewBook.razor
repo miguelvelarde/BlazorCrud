@@ -1,0 +1,86 @@
+@page "/books/new-book"
+@inject IBookService BookService
+@inject NavigationManager Navigation
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title"><i class="bi bi-plus-lg"></i> Add New Book</h5>
+    </div>
+    <div class="card-body">
+        <EditForm FormName="NewBookForm" Model="newBook" OnValidSubmit="AddBook">
+            <DataAnnotationsValidator />
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- Primera columna con los demás campos -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <InputText class="form-control" @bind-Value="newBook.Title" placeholder="Enter the book title" />
+                            <ValidationMessage For="@(() => newBook.Title)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Author</label>
+                            <InputText class="form-control" @bind-Value="newBook.Author" placeholder="Enter the author's name" />
+                            <ValidationMessage For="@(() => newBook.Author)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Number of Pages</label>
+                            <InputNumber class="form-control" @bind-Value="newBook.Pages" placeholder="Enter the number of pages" />
+                            <ValidationMessage For="@(() => newBook.Pages)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <InputNumber class="form-control" @bind-Value="newBook.Price" placeholder="Enter the book price" />
+                            <ValidationMessage For="@(() => newBook.Price)" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <!-- Segunda columna con el campo Descripción -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <InputTextArea class="form-control" @bind-Value="newBook.Description" placeholder="Enter a brief description" rows="11" />
+                            <ValidationMessage For="@(() => newBook.Description)" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones en una sola fila -->
+                <div class="d-flex justify-content-sm-start gap-3 mt-3">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Save</button>
+                    <button type="button" class="btn btn-danger" @onclick="Cancel"><i class="bi bi-x-circle"></i> Cancel</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+    private Book newBook = new Book();
+
+    private async Task AddBook()
+    {
+        string errorMessage = "";
+
+        string result = await BookService.CreateBook(newBook);
+
+        if (result == "success")
+        {
+            Navigation.NavigateTo("/books", forceLoad: true);
+        }
+        else
+        {
+            errorMessage = result;
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/books", forceLoad: true);
+    }
+}
